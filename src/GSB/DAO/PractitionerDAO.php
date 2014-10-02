@@ -11,7 +11,7 @@ class PractitionerDAO extends DAO
      */
     private $practitionerDAO;
 
-    public function setPractitionerDAO(\GSB\DAO\PractitionerDAO $practitionerDAO) {
+    public function setPractitionerDAO($practitionerDAO) {
         $this->practitionerDAO = $practitionerDAO;
     }
 

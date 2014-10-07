@@ -1,7 +1,49 @@
-<?php
-/* 
-* To change this license header, choose License Headers in Project Properties.
-* To change this template file, choose Tools | Templates
-* and open the template in the editor.
-*/
+{% extends "layout.html.twig" %}
+{% set practitionerMenu = true %}
 
+{% block title %}{{ practitioner.Name }}{% endblock %}
+
+{% block content %}
+<h2 class="text-center">{{ block('title') }}</h2>
+<div class="well">
+    <form class="form-horizontal" role="form">
+        <div class="form-group">
+            <label class="col-sm-3 control-label">Nom</label>
+            <div class="col-sm-9">
+                <p class="form-control-static">{{ practitioner.name }}</p>
+            </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">Prénom</label>
+            <div class="col-sm-9">
+            <p class="form-control-static">{{ practitioner.first_name }}</p>
+            </div>
+        </div>
+            </div>
+            <div class="form-group">
+            <label class="col-sm-3 control-label">Type Practicien</label>
+            <div class="col-sm-9">
+            <p class="form-control-static">{{ practitioner.type_id.type_name}}</p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">Code Postal</label>
+            <div class="col-sm-9">
+                <p class="form-control-static">{{ practitioner.zip_code }}</p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">Ville Affectation</label>
+            <div class="col-sm-9">
+                <p class="form-control-static">{{ practitioner.city }}</p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">Coefficient Notoriété</label>
+            <div class="col-sm-9">
+                <p class="form-control-static">{{ practitioner.coefficient }}</p>
+            </div>
+        </div>
+        
+    </form>
+</div>
+{% endblock %}

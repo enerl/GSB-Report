@@ -1,7 +1,7 @@
 {% extends "layout.html.twig" %}
 {% set practitionerMenu = true %}
 
-{% block title %}Practitioners{% endblock %}
+{% block title %}Practicien{% endblock %}
 
 {% block content %}
 <h2 class="text-center">{{ block('title') }}</h2>
@@ -10,14 +10,18 @@
         <table class="table table-hover table-condensed">
             <thead>
                 <tr>
-                    <th>Nom Practicien</th>
-                    <th>Type Practicien</th>
+                    <th>Nom </th>
+                    <th>Prénom</th>
+                    <th>Ville</th>
+                    <th>Type</th>
                 </tr>
             </thead>
             {% for practitioner in practitioners %}
                 <tr>
-                    <td><a href="/practitioners/{{ practitioner.id }}">{{ practitioner.name     }}  {{    practitioner.first_name}}</a></td>
-                    <td>{{ practitioner.type_id.type_name }}</td>
+                    <td><a href="/drugs/{{ practitioner.id }}">{{ practitioner.name }}</a></td>
+                    <td>{{ practitioner.firstName }}</td>
+                    <td>{{ practitioner.city }}</td>
+                    <td>{{ practitioner.type.name }}</td>
                 </tr>
             {% endfor %}
         </table>

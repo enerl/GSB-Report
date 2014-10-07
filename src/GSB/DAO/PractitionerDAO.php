@@ -1,5 +1,4 @@
 <?php
-
 namespace GSB\DAO;
 
 use GSB\Domain\Practitioner;
@@ -7,21 +6,21 @@ use GSB\Domain\Practitioner;
 class PractitionerDAO extends DAO
 {
     /**
-     * @var \GSB\DAO\PractitionerDAO
+     * @var \GSB\DAO\PractitionerTypeDAO
      */
-    private $practitionerDAO;
+    private $practitionerTypeDAO;
 
-    public function setPractitionerDAO($practitionerDAO) {
-        $this->practitionerDAO = $practitionerDAO;
+    public function setPractitionerTypeDAO($practitionerTypeDAO) {
+        $this->practitionerTypeDAO = $practitionerTypeDAO;
     }
 
     /**
-     * Returns the list of all Practitioners, sorted by Practitioner_name.
+     * Returns the list of all practitioner, sorted by trade name.
      *
-     * @return array The list of all Practitioners.
+     * @return array The list of all practitioner.
      */
     public function findAll() {
-        $sql = "select * from Practitioner order by practitioner_name";
+        $sql = "select * from practitioner order by practitioner_name";
         $result = $this->getDb()->fetchAll($sql);
         
         // Converts query result to an array of domain objects
@@ -34,54 +33,54 @@ class PractitionerDAO extends DAO
     }
 
     /**
-     * Returns the list of all practitioner for a given type, sorted by Practitioner name.
+     * Returns the list of all drugs for a given practitioner type, sorted by name.
      *
-     * @param integer $familyDd The family id.
+     * @param integer $practitionerTypeId The practitioner type id .
      *
-     * @return array The list of Practitioners.
+     * @return array The list of practitioner.
      */
     public function findAllByType($practitionerTypeId) {
-        $sql = "select * from Practitioner where practitioner_type_id=? order by practitioner_name";
+        $sql = "select * from practitioner where practitioner_type_id=? order by practitioner_name";
         $result = $this->getDb()->fetchAll($sql, array($practitionerTypeId));
         
         // Convert query result to an array of domain objects
         $practitioners = array();
         foreach ($result as $row) {
-            $practitionerID = $row['practitioner_id'];
-            $practitioners[$practitionerID] = $this->buildDomainObject($row);
+            $practitionerId = $row['practitioner_id'];
+            $practitioners[$practitionerId] = $this->buildDomainObject($row);
         }
         return $practitioners;
     }
 
     /**
-     * Returns the Practitioner matching a given id.
+     * Returns the practitioner matching a given id.
      *
-     * @param integer $id The Practitioner id.
+     * @param integer $id The practitioner id.
      *
-     * @return \GSB\Domain\Practitioner|throws an exception if no drug is found.
+     * @return \GSB\Domain\practitioner|throws an exception if no drug is found.
      */
     public function find($id) {
-        $sql = "select * from Practitioner where practitioner_id=?";
+        $sql = "select * from practitioner where practitioner_id=?";
         $row = $this->getDb()->fetchAssoc($sql, array($id));
 
         if ($row)
             return $this->buildDomainObject($row);
         else
-            throw new \Exception("No Practitioner found for id " . $id);
+            throw new \Exception("No practitioner found for id " . $id);
     }
 
     /**
-     * Creates a Practitioner instance from a DB query result row.
+     * Creates a Drug instance from a DB query result row.
      *
      * @param array $row The DB query result row.
      *
-     * @return \GSB\Domain\Practitioner
+     * @return \GSB\Domain\Drug
      */
     protected function buildDomainObject($row) {
-        $typeId = $row['practitioner_id'];
-        $type = $this->practitionerDAO->find($typeId);
+        $practitionerTypeId = $row['practitioner_type_id'];
+        $practitionerType = $this->practitionerTypeDAO->find($practitionerTypeId);
 
-        $practitioner = new Practitioner();
+        $practitioner = new Practitioner ();
         $practitioner->setId($row['practitioner_id']);
         $practitioner->setName($row['practitioner_name']);
         $practitioner->setFirstName($row['practitioner_first_name']);
@@ -89,8 +88,7 @@ class PractitionerDAO extends DAO
         $practitioner->setZipCode($row['practitioner_zip_code']);
         $practitioner->setCity($row['practitioner_city']);
         $practitioner->setNotorietyCoefficient($row['notoriety_coefficient']);
-        $practitioner->setIdType($type);
-
-        return $type;
+        $practitioner->setType($practitionerType);
+        return $practitioner;
     }
 }

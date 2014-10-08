@@ -83,7 +83,7 @@ class Practitioner {
         return $this->zipCode;
     }
     public function setZipCode($zipCode) {
-        $this->address = $zipCode;
+        $this->zipCode = $zipCode;
     }
     
     public function getCity() {
@@ -94,7 +94,7 @@ class Practitioner {
     }
     
     public function getNotorietyCoefficient() {
-        return $this->city;
+        return $this->notorietyCoefficient;
     }
     public function setNotorietyCoefficient($notorietyCoefficient) {
         $this->notorietyCoefficient = $notorietyCoefficient;

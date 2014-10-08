@@ -33,7 +33,7 @@ $app->post('/drugs/results/', function(Request $request) use ($app) {
 });
 
 // Details for a practitioner
-$app->get('/practitioners/{id}', function($id) use ($app) {
+$app->get('/practitioner/{id}', function($id) use ($app) {
     $practitioner = $app['dao.practitioner']->find($id);
     return $app['twig']->render('practitioner.html.twig', array('practitioner' => $practitioner));
 });

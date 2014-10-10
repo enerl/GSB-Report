@@ -33,7 +33,7 @@ $app->post('/drugs/results/', function(Request $request) use ($app) {
 });
 
 // Details for a practitioner
-$app->get('/practitioner/{id}', function($id) use ($app) {
+$app->get('/practitioners/{id}', function($id) use ($app) {
     $practitioner = $app['dao.practitioner']->find($id);
     return $app['twig']->render('practitioner.html.twig', array('practitioner' => $practitioner));
 });
@@ -46,13 +46,30 @@ $app->get('/practitioners/', function() use ($app) {
 
 // Search form for practitioners
 $app->get('/practitioners/search/', function() use ($app) {
-    $practitionerTypes = $app['dao.practitionerType']->findAll();
-    return $app['twig']->render('practitioners_search.html.twig', array('practitionerTypes' => $practitionerTypes));
+    $types = $app['dao.practitionertype']->findAll();
+    return $app['twig']->render('practitioners_search.html.twig', array('types' => $types));
 });
 
 // Results page for practitioners
 $app->post('/practitioners/results/', function(Request $request) use ($app) {
-    $practitionerTypeId = $request->request->get('practitionerTypeId');
-    $practitioners = $app['dao.practitioner']->findAllByType($practitionerTypeId);
+    if ($request->request->has('type')) {
+        // Simple search by type
+        $typeId = $request->request->get('type');
+        $practitioners = $app['dao.practitioner']->findAllByType($typeId);
+    }
+    else {
+        // Advanced search by name and city
+        $name = $request->request->get('name');
+        $city = $request->request->get('city');
+        $practitioners = $app['dao.practitioner']->findAllByNameAndCity($name, $city);
+    }
     return $app['twig']->render('practitioners_results.html.twig', array('practitioners' => $practitioners));
 });
+
+// Login form
+$app->get('/login', function(Request $request) use ($app) {
+    return $app['twig']->render('login.html.twig', array(
+        'error'         => $app['security.last_error']($request),
+        'last_username' => $app['session']->get('_security.last_username'),
+    ));
+})->bind('login');  // named route so that path('login') works in Twig templates

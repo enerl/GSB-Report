@@ -4,11 +4,12 @@ namespace GSB\DAO;
 
 use GSB\Domain\PractitionerType;
 
-class PractitionerTypeDAO extends DAO {
+class PractitionerTypeDAO extends DAO
+{
     /**
-     * Returns the list of all Practitioner Type, sorted by name.
+     * Returns the list of all practitioner types, sorted by name.
      *
-     * @return array The list of all Practitioner Type.
+     * @return array The list of all families.
      */
     public function findAll() {
         $sql = "select * from practitioner_type order by practitioner_type_name";
@@ -24,11 +25,11 @@ class PractitionerTypeDAO extends DAO {
     }
 
     /**
-     * Returns the practitioner matching the given id.
+     * Returns the PractitionerType matching the given id.
      *
-     * @param integer $id The practitioner id.
+     * @param integer $id
      *
-     * @return \GSB\Domain\PractitionerTypet|hrows an exception if no family is found.
+     * @return \GSB\Domain\PractitionerType|throws an exception if no PractitionerType is found.
      */
     public function find($id) {
         $sql = "select * from practitioner_type where practitioner_type_id=?";
@@ -37,15 +38,15 @@ class PractitionerTypeDAO extends DAO {
         if ($row)
             return $this->buildDomainObject($row);
         else
-            throw new \Exception("No practitioner type found for id " . $id);
+            throw new \Exception("No PractitionerType found for id " . $id);
     }
 
     /**
-     * Creates a Family instance from a DB query result row.
+     * Creates a PractitionerType instance from a DB query result row.
      *
      * @param array $row The DB query result row.
      *
-     * @return \GSB\Domain\Family
+     * @return \GSB\Domain\PractitionerType
      */
     protected function buildDomainObject($row) {
         $practitionerType = new PractitionerType();

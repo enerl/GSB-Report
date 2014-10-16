@@ -73,3 +73,15 @@ $app->get('/login', function(Request $request) use ($app) {
         'last_username' => $app['session']->get('_security.last_username'),
     ));
 })->bind('login');  // named route so that path('login') works in Twig templates
+
+// List of all visit reports
+$app->get('/reports/', function() use ($app) {
+    $reports = $app['dao.visitReport']->findAll();
+    return $app['twig']->render('reports.html.twig', array('reports' => $reports));
+});
+
+// Add of a visit report
+$app->get('/report/add/', function() use ($app) {
+    $practitioners = $app['dao.practitioner']->findAll();
+    return $app['twig']->render('report_add.html.twig', array('practitioners' => $practitioners));
+});
